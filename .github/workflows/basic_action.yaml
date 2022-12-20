@@ -37,7 +37,7 @@ jobs:
     
    
       # Merge PR
-      #- name: Merge PR
-      #  run: gh pr merge ${{ github.head_ref || github.ref_name }} -s -F COMMIT_MESSAGE_TEMPLATE.md
+      - name: Merge PR
+        run: gh pr merge ${{ github.head_ref || github.ref_name }} -s -F COMMIT_MESSAGE_TEMPLATE.md
 
 
