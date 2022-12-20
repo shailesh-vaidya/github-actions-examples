@@ -38,6 +38,9 @@ jobs:
    
       # Merge PR
       - name: Merge PR
-        run: gh pr merge ${{ github.head_ref || github.ref_name }} -s -F COMMIT_MESSAGE_TEMPLATE.md
+        run: | 
+          gh pr view test-action-2 --json comments --jq '.comments[-1].body' >> COMMIT_MESSAGE
+          gh pr merge ${{ github.head_ref || github.ref_name }} -s -F COMMIT_MESSAGE
+           
 
 
