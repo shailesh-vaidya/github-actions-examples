@@ -31,8 +31,9 @@ jobs:
     
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-        with:
-          ref: ${GITHUB_REF_NAME}
+          
+      - name: Branch name
+        run: echo running on branch ${GITHUB_REF##*/}    
     
      # Validate cloned repo
       - name: validate cloned repo
