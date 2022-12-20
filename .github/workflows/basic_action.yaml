@@ -25,6 +25,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      
+      
+      # Validate cloned repo
+      - name: validate cloned repo
+        run: ls -ltr
 
       # Runs a single command using the runners shell
       - name: Install GH CLI
