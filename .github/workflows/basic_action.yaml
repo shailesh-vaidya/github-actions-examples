@@ -32,13 +32,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
           
-      - name: Branch name
-        run: echo running on branch ${{ github.head_ref || github.ref_name }}
+      - name: Clone repo
+        run: git clone https://github.com/${{github.repository}}/${{ github.head_ref || github.ref_name }}
     
      # Validate cloned repo
       - name: validate cloned repo
         run: git checkout ${{ github.head_ref || github.ref_name }}
-
 
       # Merge PR
       - name: Merge PR
