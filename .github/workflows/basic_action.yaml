@@ -32,7 +32,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
         with:
-          ref: $GITHUB_REF_NAME
+          ref: ${GITHUB_REF_NAME}
     
      # Validate cloned repo
       - name: validate cloned repo
