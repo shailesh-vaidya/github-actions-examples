@@ -1,4 +1,4 @@
-# This is a basic workflow to help you get started with Actions
+# Workflow to auto-merge pull request
 
 name: PR Merge
 
@@ -27,20 +27,17 @@ jobs:
       # Install GitHub CLI
       - name: Install GH CLI
         run: sudo apt install curl -y && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null && sudo apt update && sudo apt install gh -y
-        
-    
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
           
-      - name: Clone repo
+      - name: Clone repo and branch
         run: git clone https://github.com/${{github.repository}}/ -b ${{ github.head_ref || github.ref_name }}
-    
+  
    
       # Merge PR
-      - name: Merge PR
+      - name: Generate commit message from last comment and merge pull request
         run: | 
           gh pr view ${{ github.head_ref || github.ref_name }} --json comments --jq '.comments[-1].body' >> COMMIT_MESSAGE
+          echo -e "\nAuthor: $(gh pr view workflow-test --json author --jq .author.login) >> COMMIT_MESSAGE
+          echo -e "\nAssignee: $(gh pr view workflow-test --json assignees --jq .assignees[].login) >> COMMIT_MESSAGE
+          echo -e "\nReviewer: $(gh pr view workflow-test --json reviewRequests --jq  .reviewRequests[].login)" >> COMMIT_MESSAGE
           gh pr merge ${{ github.head_ref || github.ref_name }} -s -F COMMIT_MESSAGE -d
            
-
-
