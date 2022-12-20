@@ -13,6 +13,7 @@ on:
 
 env:
     GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -32,7 +33,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.ref }}
+          ref: $BRANCH_NAME
     
      # Validate cloned repo
       - name: validate cloned repo
