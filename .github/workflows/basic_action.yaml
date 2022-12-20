@@ -5,8 +5,6 @@ name: PR Merge
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -16,7 +14,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  pr-merge:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -28,4 +26,8 @@ jobs:
       # Runs a single command using the runners shell
       - name: Install GH CLI
         run: sudo apt install curl -y && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null && sudo apt update && sudo apt install gh -y
+        
+      # Merge PR
+      - name: Merge PR
+        run: gh pr merge -s -F COMMIT_MESSAGE_TEMPLATE.md
 
