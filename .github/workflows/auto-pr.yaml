@@ -35,11 +35,14 @@ jobs:
         run: git clone https://github.com/${{github.repository}}/ -b ${{ github.head_ref || github.ref_name }}
   
    
-      # Merge PR
+      # Generate Commit Message
       - name: Generate commit message from last comment and merge pull request
         run: | 
           gh pr view ${{ github.head_ref || github.ref_name }} --json body | jq -r .body | sed -ne '/Commit Message/,$ p' >> COMMIT_MESSAGE
           echo -e "- Author: $(gh pr view ${{ github.head_ref || github.ref_name }} --json author --jq .author.login)" >> COMMIT_MESSAGE
           echo -e "- Assignee: $(gh pr view ${{ github.head_ref || github.ref_name }} --json assignees | jq -r '[.assignees[].login ] | @csv')" >> COMMIT_MESSAGE
           echo -e "- Reviewer: $(gh pr view ${{ github.head_ref || github.ref_name }} --json reviewRequests  | jq -r '[.reviewRequests[].login ] | @csv')" >> COMMIT_MESSAGE
-          gh pr merge ${{ github.head_ref || github.ref_name }} -s -F COMMIT_MESSAGE -d
+
+      # Merge Pull Request 
+      - name: Merge Pull Request
+        run: gh pr merge ${{ github.head_ref || github.ref_name }} -s -F COMMIT_MESSAGE -d
