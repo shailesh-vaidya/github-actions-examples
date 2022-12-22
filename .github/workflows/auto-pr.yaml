@@ -46,3 +46,9 @@ jobs:
       # Merge Pull Request 
       - name: Merge Pull Request
         run: gh pr merge ${{ github.head_ref || github.ref_name }} -s -F COMMIT_MESSAGE -d
+        
+      # Update Pull Request Labels
+      - name: Merge Pull Request
+        run: gh pr edit ${{ github.head_ref || github.ref_name }} --remove-label ready-to-merge --add-label auto-merged
+        
+        
