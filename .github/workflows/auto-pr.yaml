@@ -39,8 +39,8 @@ jobs:
       - name: Generate commit message from last comment and merge pull request
         run: | 
           gh pr view ${{ github.head_ref || github.ref_name }} --json body | jq -r .body | sed -ne '/Commit Message/,$ p' >> COMMIT_MESSAGE
-          echo -e "\nAuthor: $(gh pr view workflow-test --json author --jq .author.login)" >> COMMIT_MESSAGE
-          echo -e "\nAssignee: $(gh pr view workflow-test --json assignees --jq .assignees[].login)" >> COMMIT_MESSAGE
-          echo -e "\nReviewer: $(gh pr view workflow-test --json reviewRequests --jq  .reviewRequests[].login)" >> COMMIT_MESSAGE
+          echo -e "- Author: $(gh pr view ${{ github.head_ref || github.ref_name }} --json author --jq .author.login)" >> COMMIT_MESSAGE
+          echo -e "- Assignee: $(gh pr view ${{ github.head_ref || github.ref_name }} --json assignees --jq .assignees[].login)" >> COMMIT_MESSAGE
+          echo -e "- Reviewer: $(gh pr view ${{ github.head_ref || github.ref_name }} --json reviewRequests --jq  .reviewRequests[].login)" >> COMMIT_MESSAGE
           gh pr merge ${{ github.head_ref || github.ref_name }} -s -F COMMIT_MESSAGE -d
            
