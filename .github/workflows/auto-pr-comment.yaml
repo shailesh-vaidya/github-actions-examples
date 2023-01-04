@@ -1,0 +1,47 @@
+# Workflow to add automated comment in pull request
+
+name: PR Merge
+
+# Controls when the workflow will run
+on:
+  pull_request:
+    types: [ labeled ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+    GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  pr-merge:
+    if: ${{ github.event.label.name == 'add-merge-comment' }}
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+    
+      # Install GitHub CLI
+      - name: Install GH CLI
+        run: sudo apt install curl -y && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null && sudo apt update && sudo apt install gh -y
+          
+      - name: Clone repo and branch
+        run: git clone https://github.com/${{github.repository}}/ -b ${{ github.head_ref || github.ref_name }}
+  
+   
+      # Generate Commit Message
+      - name: Generate commit message from last comment and merge pull request
+        run: | 
+          gh pr view ${{ github.head_ref || github.ref_name }} --json body | jq -r .body | sed -ne '/Commit Message/,$ p' >> COMMIT_MESSAGE
+          echo -e "- Author: $(gh pr view ${{ github.head_ref || github.ref_name }} --json author --jq .author.login)" >> COMMIT_MESSAGE
+          echo -e "- Assignee: $(gh pr view ${{ github.head_ref || github.ref_name }} --json assignees | jq -r '[.assignees[].login ] | @csv')" >> COMMIT_MESSAGE
+          echo -e "- Reviewer: $(gh pr view ${{ github.head_ref || github.ref_name }} --json reviewRequests  | jq -r '[.reviewRequests[].login ] | @csv')" >> COMMIT_MESSAGE
+      # Merge Pull Request 
+      - name: Merge Pull Request
+        run: gh pr comment ${{ github.head_ref || github.ref_name }} -F COMMIT_MESSAGE
