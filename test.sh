@@ -1,3 +1,3 @@
 ##/bin/bash
 
-echo "Hello New World for testing!!!"
+echo "Hello New World for test!!!"
