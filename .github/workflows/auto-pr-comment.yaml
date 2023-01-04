@@ -1,6 +1,6 @@
 # Workflow to add automated comment in pull request
 
-name: PR Merge
+name: Add Pull Request Comment
 
 # Controls when the workflow will run
 on:
