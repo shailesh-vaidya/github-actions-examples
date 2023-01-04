@@ -32,4 +32,4 @@ jobs:
          echo "GITHUB_PR_NUMBER=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_ENV
       - name: Use the value
         run: |
-         echo "${{ env.github_pr_number }}"
+         echo "${{ env.GITHUB_PR_NUMBER }}"
