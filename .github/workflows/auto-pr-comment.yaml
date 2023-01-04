@@ -27,7 +27,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
      
-      - name: Clone repo and branch
+      - name: Set the value
         run: |
          echo "GITHUB_PR_NUMBER=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_ENV
-         echo ${{ env.GITHUB_PR_NUMBER }}
+      - name: Use the value
+        run: |
+         echo "${{ env.github_pr_number }}"
