@@ -38,6 +38,7 @@ jobs:
       # Generate Commit Message
       - name: Generate commit message from last comment and merge pull request
         run: | 
+          echo "**Note:** _Please ensure to copy-paste the below message while merging this pull request. Failing to do this will block the pull request merge operation_" >> COMMIT_MESSAGE
           gh pr view ${{ github.head_ref || github.ref_name }} --json body | jq -r .body | sed -ne '/Commit Message/,$ p' >> COMMIT_MESSAGE
           echo -e "- Author: $(gh pr view ${{ github.head_ref || github.ref_name }} --json author --jq .author.login)" >> COMMIT_MESSAGE
           echo -e "- Assignee: $(gh pr view ${{ github.head_ref || github.ref_name }} --json assignees | jq -r '[.assignees[].login ] | @csv')" >> COMMIT_MESSAGE
