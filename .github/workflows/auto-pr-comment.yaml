@@ -29,5 +29,5 @@ jobs:
      
       - name: Clone repo and branch
         run: |
-         echo "PR_NUMBER=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_ENV
-         echo $GITHUB_REF $PR_NUMBER
+         echo "GITHUB_PR_NUMBER=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_ENV
+         echo ${{ env.GITHUB_PR_NUMBER }}
