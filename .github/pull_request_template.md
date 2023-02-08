@@ -33,17 +33,3 @@
 # Documentation
   Checklist for Author
 - [ ] Changes done to WIKI / Confluence page / Quick Start Guide
-
-# Commit Message
-
-- JIRA Number: <Please instert Jira Number>
-- Include this comment in Build Notes (Y/N): Y
-- Change Summary: <<Please instert Change Summary>
-- Bug Type: (e.g. Legacy Bug/Introduced Bug/Unknown/None): None
-- New Functionality (Y/N): N
-- Engineering Change Summary:
-- Branches: NA
-- Allow Merge (Y/N)? N
-- Files changed: NA
-- Testing: NA
-- Precommit Results: None
