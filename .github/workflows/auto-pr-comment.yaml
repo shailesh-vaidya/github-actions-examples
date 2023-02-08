@@ -43,7 +43,7 @@ jobs:
           echo -e "- Source Branch : $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json headRepository |  jq .[].name | sed 's/"//g')/$(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json   headRefName | jq .headRefName | sed 's/"//g')" >> COMMIT_MESSAGE         
           echo -e "- Author: $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json author --jq .author.login)" >> COMMIT_MESSAGE
           echo -e "- Assignee: $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json assignees | jq -r '[.assignees[].login ] | @csv')" >> COMMIT_MESSAGE
-          echo -e "- Reviewers: $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json reviews | jq -r '[.reviews[].author.login] | @csv')" >> COMMIT_MESSAGE      
+          echo -e "- Reviewers: $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json reviews | jq -r '[.reviews[].author.login] | unique | @csv')" >> COMMIT_MESSAGE      
 
       # Merge Pull Request 
       - name: Add comment in pull request
