@@ -1,4 +1,6 @@
 Title:
-Type of change: Feature/New Functionality/Bug
+
+Type of change: Feature/New Functionality/Bug:
+
 Change Summary:
 
