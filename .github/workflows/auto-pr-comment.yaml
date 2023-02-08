@@ -38,10 +38,10 @@ jobs:
       - name: Generate commit message from last comment and merge pull request
         run: |
           echo "**Note:** _Please ensure to copy-paste the below message while merging this pull request. Failing to do this will block the pull request merge operation_" >> COMMIT_MESSAGE
-          gh pr view ${{ env.GITHUB_PR_NUMBER }} --json body | jq -r .body | sed -ne '/Commit Message/,$ p' >> COMMIT_MESSAGE
+          cat COMMIT_MESSAGE_TEMPLATE.md >> COMMIT_MESSAGE
           echo -e "- Author: $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json author --jq .author.login)" >> COMMIT_MESSAGE
           echo -e "- Assignee: $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json assignees | jq -r '[.assignees[].login ] | @csv')" >> COMMIT_MESSAGE
-          echo -e "- Reviewer: $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json reviewRequests  | jq -r '[.reviewRequests[].login ] | @csv')" >> COMMIT_MESSAGE      
+          echo -e "- Reviewers: $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json reviews | jq -r '[.reviews[].author.login] | @csv')" >> COMMIT_MESSAGE      
 
       # Merge Pull Request 
       - name: Add comment in pull request
