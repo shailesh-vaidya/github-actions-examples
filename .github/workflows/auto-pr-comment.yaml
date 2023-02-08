@@ -15,8 +15,8 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  pr-merge:
+  # This workflow contains a single job called "pr-comment"
+  pr-comment:
     if: github.event.review.state == 'approved'
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
