@@ -39,11 +39,11 @@ jobs:
         run: |
           echo "**Note:** _Please ensure to copy-paste the below message while merging this pull request. Failing to do this will block the pull request merge operation_" >> COMMIT_MESSAGE
           echo -e "- Title: $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json title | jq -r '[.title] | @csv')" >> COMMIT_MESSAGE
-          echo -e "- Files Modified:" && echo "$(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json files | jq .files[].path | sed 's/"//g' | sed 's/^/  - /g')" >> COMMIT_MESSAGE
+          echo -e "- Files Modified:\n$(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json files | jq .files[].path | sed 's/"//g' | sed 's/^/  - /g')" >> COMMIT_MESSAGE
           echo -e "- Source Branch : $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json headRepository |  jq .[].name | sed 's/"//g')/$(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json   headRefName | jq .headRefName | sed 's/"//g')" >> COMMIT_MESSAGE         
           echo -e "- Author: $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json author --jq .author.login)" >> COMMIT_MESSAGE
           echo -e "- Assignee: $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json assignees | jq -r '[.assignees[].login ] | @csv')" >> COMMIT_MESSAGE
-          echo -e "- Reviewers: $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json reviews | jq -r '[.reviews[].author.login] | @csv')" >> COMMIT_MESSAGE      
+          echo -e "- Reviewers: $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json reviews | jq -r '[.reviews[].author.login] | unique | @csv')" >> COMMIT_MESSAGE      
 
       # Merge Pull Request 
       - name: Add comment in pull request
