@@ -47,4 +47,5 @@ jobs:
 
       # Merge Pull Request 
       - name: Add comment in pull request
-        run: gh pr comment ${{ env.GITHUB_PR_NUMBER }} --edit-last -F COMMIT_MESSAGE
+        run: |
+          if [ "$(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json comments | jq .comments[].author.login | sed s/\"//g | tail -1)" == "github-actions" ]; then echo -e "- Approved By: $(gh pr view ${{ env.GITHUB_PR_NUMBER }} --json latestReviews | jq -r '[.latestReviews[].author.login ] | @csv')" >> COMMIT_MESSAGE; gh pr comment ${{ env.GITHUB_PR_NUMBER }} --edit-last -F COMMIT_MESSAGE; else gh pr comment ${{ env.GITHUB_PR_NUMBER }} -F COMMIT_MESSAGE; fi
