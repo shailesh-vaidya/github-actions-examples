@@ -47,4 +47,4 @@ jobs:
 
       # Merge Pull Request 
       - name: Add comment in pull request
-        run: gh pr comment ${{ env.GITHUB_PR_NUMBER }} -F COMMIT_MESSAGE
+        run: gh pr comment ${{ env.GITHUB_PR_NUMBER }} --edit-last -F COMMIT_MESSAGE
