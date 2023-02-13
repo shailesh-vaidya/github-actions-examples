@@ -2,7 +2,7 @@
 
 Thie repository contains GitHub Actions workflows to automate various DevOps Tasks. 
 
-## [Auto Generate Pull Rquest Commit message](.github/workflows/auto-pr-comment.yaml)
+## [Auto Generate Pull Request Commit message](.github/workflows/auto-pr-comment.yaml)
 
   - This GitHub Action will create commit message in below format and add it as comment in Pull Request 
   ```
